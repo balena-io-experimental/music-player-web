@@ -7,7 +7,7 @@ branch_name=${branch_name##refs/heads/}
 branch_name=${branch_name:-HEAD}
 
 rm -rf public
-mimosa build
+mimosa build -mo
 git checkout gh-pages
 rm -rf $FILES
 mv public/* .

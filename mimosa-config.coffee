@@ -19,3 +19,5 @@ exports.config =
       strategy: 'none'
   require:
     commonConfig: 'require-config'
+  minifyJS:
+    exclude: [/\.min\./, /app\/.*\.js/]
