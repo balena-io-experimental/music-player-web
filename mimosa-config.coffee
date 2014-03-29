@@ -14,6 +14,8 @@ exports.config =
     "server-template-compile",
     "jade"
   ]
+  jade:
+    static: true
   bower:
     copy:
       strategy: 'none'
