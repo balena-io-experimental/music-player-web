@@ -10,7 +10,6 @@
   },
   "devDependencies": {
     "mimosa-coffeescript": "*",
-    "mimosa-sass": "*",
-    "mimosa-html-templates": "*"
+    "mimosa-sass": "*"
   }
 }

@@ -12,9 +12,12 @@ form(name="myForm", role="form")
       | Required
     .help-block(ng-show="myForm.site.$error.url")
       | Not a URL
-  label Description
-  textarea.form-control(name="description", ng-model="project.description")
-  div
+  .form-group
+    label(for="inputDescription") Description
+    textarea.form-control#inputDescription(name="description", ng-model="project.description")
+  .form-group
     a.btn.btn-link(href="#/") Cancel
+    | &nbsp;
     button.btn.btn-primary(type="button", ng-click="save()", ng-disabled="myForm.$invalid") Save
+    | &nbsp;
     button.btn.btn-danger(type="button", ng-click="destroy()", ng-show="project.$remove") Delete
