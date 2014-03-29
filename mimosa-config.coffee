@@ -12,10 +12,8 @@ exports.config =
     "coffeescript",
     "sass",
     "server-template-compile",
-    "jade"
+    "jade-static"
   ]
-  jade:
-    static: true
   bower:
     copy:
       strategy: 'none'
