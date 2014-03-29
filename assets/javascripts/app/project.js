@@ -1,17 +1,14 @@
 define(
 [
+  'templates',
   'angular',
   'angular-resource',
   'angular-route',
   'angular-fire',
-  'templates'
 ],
 function(
-  angular,
-  ngResource,
-  ngRoute,
-  ngFire,
-  T
+  T,
+  angular
 ) {
 
   return angular.module('project', ['ngRoute', 'firebase'])
