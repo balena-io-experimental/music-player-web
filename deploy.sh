@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FILES="*.html javascripts stylesheets"
+FILES="*.html javascripts stylesheets favicon.ico"
 
 branch_name=$(git symbolic-ref -q HEAD)
 branch_name=${branch_name##refs/heads/}
