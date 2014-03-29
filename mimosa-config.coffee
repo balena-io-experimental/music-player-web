@@ -11,9 +11,11 @@ exports.config =
     "live-reload",
     "coffeescript",
     "sass",
-    "html-templates",
-    "server-template-compile"
+    "server-template-compile",
+    "jade"
   ]
   bower:
     copy:
       strategy: 'none'
+  require:
+    commonConfig: 'require-config'

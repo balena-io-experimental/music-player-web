@@ -1,7 +1,6 @@
-extends layout
+extend layout
 
 block content
-  h1: span.glyphicon.glyphicon-heart
-  p Welcome to Mimosa
-  if optimize
-    p Optimized mode.  You are getting a single RequireJS optimized JavaScript file which includes all the page dependencies.
+  .container(ng-app="project")
+    h2 JavaScript Projects
+    div(ng-view)

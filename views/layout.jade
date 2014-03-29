@@ -8,10 +8,11 @@ html
       script(src='/socket.io/socket.io.js')
       script(src='/javascripts/reload-client.js')
 
+  body
+    block content
+
+    script(src="https://cdn.firebase.com/v0/firebase.js")
     if optimize
       script(src='/javascripts/main-built.js')
     else
       script(src='/javascripts/vendor/requirejs/require.js', data-main='/javascripts/main.js')
-
-  body
-    block content
