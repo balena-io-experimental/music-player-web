@@ -1,6 +1,7 @@
 define(
 [
   'templates',
+  'firebase',
   'angular',
   'angular-resource',
   'angular-route',
@@ -8,6 +9,7 @@ define(
 ],
 function(
   T,
+  Firebase,
   angular
 ) {
 
