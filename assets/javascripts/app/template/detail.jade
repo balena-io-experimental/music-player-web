@@ -1,0 +1,23 @@
+form(name="myForm", role="form")
+  .form-group(ng-class="{'has-error': myForm.name.$invalid && !myForm.name.$pristine}")
+    label(for="inputName") Name
+    input.form-control#inputName(type="text", name="name", ng-model="project.name", required)
+    .help-block(ng-show="myForm.name.$error.required && !myForm.name.$pristine")
+      | Required
+  .form-group(ng-class="{'has-error': myForm.site.$invalid && !myForm.site.$pristine}")
+    label(for="inputUrl") Website
+    input.form-control#inputUrl(type="url", name="site",
+      ng-model="project.site", required)
+    .help-block(ng-show="myForm.site.$error.required && !myForm.name.$pristine")
+      | Required
+    .help-block(ng-show="myForm.site.$error.url")
+      | Not a URL
+  .form-group
+    label(for="inputDescription") Description
+    textarea.form-control#inputDescription(name="description", ng-model="project.description")
+  .form-group
+    a.btn.btn-link(href="#/") Cancel
+    | &nbsp;
+    button.btn.btn-primary(type="button", ng-click="save()", ng-disabled="myForm.$invalid") Save
+    | &nbsp;
+    button.btn.btn-danger(type="button", ng-click="destroy()", ng-show="project.$remove") Delete

@@ -1,0 +1,15 @@
+{
+  "name": "music-player-web-front-end",
+  "version": "0.0.1",
+  "description": "A Mimosa starter skeleton",
+  "dependencies": {
+    "consolidate": "0.10.0",
+    "jade": "0.35.0",
+    "coffee-script": "1.7.1",
+    "express": "3.4.7"
+  },
+  "devDependencies": {
+    "mimosa-coffeescript": "*",
+    "mimosa-sass": "*"
+  }
+}

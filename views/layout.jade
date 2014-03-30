@@ -1,0 +1,27 @@
+doctype 5
+html
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+    meta(name="viewport", content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no")
+    meta(name="apple-mobile-web-app-capable", content="yes")
+    meta(name="apple-touch-fullscreen", content="yes")
+
+    link(rel="shortcut icon", href="favicon.ico")
+
+    title Resin Music Player Remote Control
+
+    link(rel='stylesheet', href='stylesheets/style.css' + cachebust)
+
+    if reload
+      script(src='/socket.io/socket.io.js')
+      script(src='/javascripts/reload-client.js')
+
+  body
+    block content
+
+    script(src="https://cdn.firebase.com/v0/firebase.js")
+    if optimize
+      script(src='javascripts/main-built.js')
+    else
+      script(src='javascripts/vendor/requirejs/require.js', data-main='javascripts/main.js')
