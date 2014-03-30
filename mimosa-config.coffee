@@ -16,7 +16,8 @@ exports.config =
   ]
   bower:
     copy:
-      strategy: 'none'
+      strategy:
+        bootstrap: 'none'
   require:
     commonConfig: 'require-config'
   minifyJS:
