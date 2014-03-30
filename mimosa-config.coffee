@@ -18,6 +18,9 @@ exports.config =
     copy:
       strategy:
         bootstrap: 'none'
+      mainOverrides:
+        'todomvc-common': ['base.js', 'base.css', 'bg.png']
+        'observe-js': ['src/observe.js']
   require:
     commonConfig: 'require-config'
   minifyJS:

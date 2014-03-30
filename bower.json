@@ -6,9 +6,10 @@
     "bootstrap": "3.1.1",
     "angular": "1.2.9",
     "angularfire": "~0.5.0",
-    "angular-adaptive-speech": "latest",
+    "angular-adaptive-speech": "0.2.0",
     "angular-resource": "1.2.9",
     "angular-route": "1.2.9",
-    "firebase": "~1.0.11"
+    "firebase": "~1.0.11",
+    "todomvc-common": "~0.1.4"
   }
 }

@@ -1,5 +1,5 @@
-doctype 5
-html
+doctype html
+html(lang="en")
   head
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
@@ -12,6 +12,8 @@ html
     title Resin Music Player Remote Control
 
     link(rel='stylesheet', href='stylesheets/style.css' + cachebust)
+    style.
+      [ng-cloak] { display: none; }
 
     if reload
       script(src='/socket.io/socket.io.js')
