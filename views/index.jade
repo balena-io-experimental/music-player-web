@@ -5,13 +5,9 @@ block content
     section(ng-controller='PlaylistCtrl')
       header
         h1 Playlist
-        form(ng-submit='addTodo()', role="form")
-          input.form-control(placeholder='What do you want to play?', ng-model='newTodo', autofocus)
+        form(ng-submit='addSong()', role="form")
+          input.form-control(placeholder='What do you want to play?', ng-model='newSong', autofocus)
       section(ng-show='totalCount', ng-cloak)
-        .checkbox
-          label
-            input(type='checkbox', ng-model='allChecked', ng-click='markAll(allChecked)')
-            | Mark all as complete
         table.playlist.table.table-striped
           colgroup
             col(width="10%")
@@ -19,31 +15,32 @@ block content
             col(width="10%")
           tbody
             tr(
-              ng-repeat='(id, todo) in todos | orderBy:"id":true',
-              ng-class='{editing: todo == editedTodo}'
+              ng-repeat='(id, song) in songs | orderBy:"id":true',
+              ng-class='{editing: song == editedSong}'
             )
               td
-                input(type='checkbox', ng-model='todo.completed', ng-change='todos.$save(id)')
-              td(ng-class='{"text-muted": todo.completed}')
+                input(type='checkbox', ng-model='song.completed', ng-change='songs.$save(id)')
+              td(ng-class='{"text-muted": song.completed}')
                 p.form-control-static: label.view(
-                  ng-dblclick='editTodo(id)',
-                  speechrecognition='{tasks: recognition["en-US"].listTasks, reference: todo.title}'
+                  ng-dblclick='editSong(id)',
+                  speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
                 )
-                  | {{todo.title}}
+                  | {{song.title}}
                 form.edit(ng-submit='doneEditing(id)')
                   input.form-control(
-                    ng-model='todo.title',
-                    todo-escape='revertEditing(id)',
-                    todo-blur='doneEditing(id)',
-                    todo-focus='todo == editedTodo'
+                    ng-model='song.title',
+                    on-escape='revertEditing(id)',
+                    on-blur='doneEditing(id)',
+                    on-focus='song == editedSong'
                   )
               td
-                button.btn.btn-sm.btn-danger(ng-click='removeTodo(id)'): &times;
+                | &nbsp;
+                -// button.btn.btn-sm.btn-danger(ng-click='removeSong(id)'): &times;
       footer#footer(ng-show='!!totalCount', ng-cloak)
-        span#todo-count
+        span#song-count
           strong {{remainingCount}}&nbsp;
           ng-pluralize(count='remainingCount', when='{ one: "song left", other: "songs left" }')
-        button.btn.btn-link(type="button", ng-click="clearCompletedTodos()", ng-show="!!completedCount") Clear completed
+        button.btn.btn-link(type="button", ng-click="clearCompletedSongs()", ng-show="!!completedCount") Clear completed
     footer
       strong Voice commands:
       ul

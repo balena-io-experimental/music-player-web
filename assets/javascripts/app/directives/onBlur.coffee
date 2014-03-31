@@ -9,5 +9,5 @@ define ->
   ->
     (scope, elem, attrs) ->
       elem.bind 'blur', ->
-        scope.$apply(attrs.todoBlur)
+        scope.$apply(attrs.onBlur)
       return

@@ -11,17 +11,17 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
   ($scope, $location, $firebase, $speechRecognition, $speechSynthetis) ->
     fireRef = new Firebase('https://vocalist.firebaseio.com')
 
-    $scope.$watch 'todos', ->
+    $scope.$watch 'songs', ->
       total = 0
       remaining = 0
-      $scope.todos.$getIndex().forEach (index) ->
-        todo = $scope.todos[index]
+      $scope.songs.$getIndex().forEach (index) ->
+        song = $scope.songs[index]
         # Skip invalid entries so they don't break the entire app.
-        if not todo or not todo.title
+        if not song or not song.title
           return
 
         total++
-        if todo.completed == false
+        if song.completed == false
           remaining++
       $scope.totalCount = total
       $scope.remainingCount = remaining
@@ -29,58 +29,56 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
       $scope.allChecked = remaining == 0
     , true
 
-    $scope.addTodo = ->
-      newTodo = $scope.newTodo.trim()
-      if not newTodo.length
+    $scope.addSong = ->
+      newSong = $scope.newSong.trim()
+      if not newSong.length
         return
-      $scope.todos.$add
-        title: newTodo
+      $scope.songs.$add
+        title: newSong
         completed: false
-      $scope.newTodo = ''
+      $scope.newSong = ''
 
-    $scope.editTodo = (id) ->
-      $scope.editedTodo = $scope.todos[id]
-      $scope.originalTodo = angular.extend({}, $scope.editedTodo)
+    $scope.editSong = (id) ->
+      editedSong = $scope.songs[id]
+      if editedSong.completed
+        return
+      $scope.editedSong = editedSong
+      $scope.originalSong = angular.extend({}, editedSong)
 
     $scope.doneEditing = (id) ->
-      $scope.editedTodo = null
-      title = $scope.todos[id].title.trim()
+      $scope.editedSong = null
+      title = $scope.songs[id].title.trim()
       if title
-        $scope.todos.$save(id)
+        $scope.songs.$save(id)
       else
-        $scope.removeTodo(id)
+        $scope.removeSong(id)
 
     $scope.revertEditing = (id) ->
-      $scope.todos[id] = $scope.originalTodo
+      $scope.songs[id] = $scope.originalSong
       $scope.doneEditing(id)
 
-    $scope.removeTodo = (id) ->
-      $scope.todos.$remove(id)
+    $scope.removeSong = (id) ->
+      $scope.songs.$remove(id)
 
     $scope.toggleCompleted = (id) ->
-      todo = $scope.todos[id]
-      todo.completed = not todo.completed
-      $scope.todos.$save(id)
+      song = $scope.songs[id]
+      song.completed = not song.completed
+      $scope.songs.$save(id)
 
-    $scope.clearCompletedTodos = ->
-      angular.forEach $scope.todos.$getIndex(), (index) ->
-        if $scope.todos[index].completed
-          $scope.todos.$remove(index)
+    $scope.clearCompletedSongs = ->
+      angular.forEach $scope.songs.$getIndex(), (index) ->
+        if $scope.songs[index].completed
+          $scope.songs.$remove(index)
 
-    $scope.markAll = (allCompleted) ->
-      angular.forEach $scope.todos.$getIndex(), (index) ->
-        $scope.todos[index].completed = not allCompleted
-      $scope.todos.$save()
-
-    $scope.newTodo = ''
-    $scope.editedTodo = null
+    $scope.newSong = ''
+    $scope.editedSong = null
 
     if $location.path() == ''
       $location.path('/')
     $scope.location = $location
 
-    # Bind the todos to the firebase provider.
-    $scope.todos = $firebase(fireRef.child('playlist'))
+    # Bind the songs to the firebase provider.
+    $scope.songs = $firebase(fireRef.child('playlist'))
 
     $scope.playing = $firebase(fireRef.child('playing'))
 
@@ -88,23 +86,23 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
       Need to be added for speech recognition
     ###
 
-    findTodo = (title) ->
-      match = false
-      matches = $scope.todos.$getIndex().forEach (index) ->
-        todo = $scope.todos[index]
-        console.log(title, todo.title, todo.title == title)
-        if todo.title == title
+    findSong = (title) ->
+      match = -1
+      matches = $scope.songs.$getIndex().forEach (index) ->
+        song = $scope.songs[index]
+        if song.title == title
           match = index
+          return
       return match
 
-    completeTodo = (title) ->
-      $scope.todos.$getIndex().forEach (index) ->
-        todo = $scope.todos[index]
-        if todo.title == title
-          todo.completed = not todo.completed
-          $scope.toggleCompleted(index)
-          $scope.$apply()
-          return true
+    completeSong = (title) ->
+      index = findSong(title)
+      if index >= 0
+        song = $scope.songs[index]
+        song.completed = not song.completed
+        $scope.toggleCompleted(index)
+        $scope.$apply()
+        return true
 
     LANG = 'en-US'
     $speechRecognition.onstart (e) ->
@@ -113,6 +111,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
     $speechRecognition.onerror (e) ->
       error = e.error || ''
       alert('An error occurred ' + error)
+
     $speechRecognition.payAttention()
     $speechRecognition.setLang(LANG)
     $speechRecognition.listen()
@@ -128,8 +127,8 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
         call: (utterance) ->
           parts = utterance.split(' ')
           if parts.length > 1
-            $scope.newTodo = parts.slice(1).join(' ')
-            $scope.addTodo()
+            $scope.newSong = parts.slice(1).join(' ')
+            $scope.addSong()
             $scope.$apply()
       startMusic:
         regex: /start.*music/gi
@@ -147,7 +146,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
         regex: /clear.*/gi
         lang: LANG
         call: (utterance) ->
-          $scope.clearCompletedTodos()
+          $scope.clearCompletedSongs()
           $scope.$apply()
       listTasks: [
         {
@@ -156,7 +155,8 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
           call: (utterance) ->
             parts = utterance.split(' ')
             if parts.length > 1
-              completeTodo(parts.slice(1).join(' '))
+              title = parts[1...].join(' ')
+              completeSong(title)
         }
         {
           regex: /^remove .+/gi
@@ -164,11 +164,10 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
           call: (utterance) ->
             parts = utterance.split(' ')
             if parts.length > 1
-              console.log(parts.slice(1).join(' '))
-              todo = findTodo(parts.slice(1).join(' '))
-              console.log(todo)
-              if todo
-                $scope.removeTodo(todo)
+              title = parts[1...].join(' ')
+              index = findSong(title)
+              if index >= 0
+                $scope.removeSong(index)
                 $scope.$apply()
         }
       ]
