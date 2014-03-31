@@ -8,7 +8,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
     - retrieves and persists the model via the $firebase service
     - exposes the model to the template and provides event handlers
   ###
-  TodoCtrl = ($scope, $location, $firebase, $speechRecognition) ->
+  TodoCtrl = ($scope, $location, $firebase, $speechRecognition, $speechSynthetis) ->
     fireRef = new Firebase('https://vocalist.firebaseio.com')
 
     $scope.$watch 'todos', ->
@@ -94,7 +94,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
         todo = $scope.todos[index]
         console.log(title, todo.title, todo.title == title)
         if todo.title == title
-          match = index;
+          match = index
       return match
 
     completeTodo = (title) ->
@@ -108,20 +108,21 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
 
     LANG = 'en-US'
     $speechRecognition.onstart (e) ->
-      $speechRecognition.speak('What songs do you want to play?')
+      $speechSynthetis.speak('What songs do you want to play?', LANG)
 
     $speechRecognition.onerror (e) ->
+      debugger
       error = e.error || ''
       alert('An error occurred ' + error)
     $speechRecognition.payAttention()
-    # $speechRecognition.setLang(LANG);
+    #$speechRecognition.setLang(LANG)
     $speechRecognition.listen()
 
     $scope.recognition = {}
-    $scope.recognition['en-US'] =
+    $scope.recognition[LANG] =
       'addToList':
         regex: /^play .+/gi
-        lang: 'en-US'
+        lang: LANG
         call: (utterance) ->
           parts = utterance.split(' ')
           if parts.length > 1
@@ -130,56 +131,56 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
             $scope.$apply()
       'start-music':
         regex: /start.*music/gi
-        lang: 'en-US'
+        lang: LANG
         call: (utterance) ->
           $scope.playing.$set(true)
           $scope.$apply()
       'stop-music':
         regex: /stop.*music/gi
-        lang: 'en-US'
+        lang: LANG
         call: (utterance) ->
           $scope.playing.$set(false)
           $scope.$apply()
       'show-all':
         regex: /show.*all/gi
-        lang: 'en-US'
+        lang: LANG
         call: (utterance) ->
           $location.path('/')
           $scope.$apply()
       'show-active':
         regex: /show.*active/gi
-        lang: 'en-US'
+        lang: LANG
         call: (utterance) ->
           $location.path('/active')
           $scope.$apply()
       'show-completed':
         regex: /show.*complete/gi,
-        lang: 'en-US'
+        lang: LANG
         call: (utterance) ->
           $location.path('/completed')
           $scope.$apply()
       'mark-all':
         regex: /^mark/gi
-        lang: 'en-US'
+        lang: LANG
         call: (utterance) ->
           $scope.markAll(1)
           $scope.$apply()
       'unmark-all':
         regex: /^unmark/gi
-        lang: 'en-US'
+        lang: LANG
         call: (utterance) ->
           $scope.markAll(1)
           $scope.$apply()
       'clear-completed':
         regex: /clear.*/gi
-        lang: 'en-US'
+        lang: LANG
         call: (utterance) ->
           $scope.clearCompletedTodos()
           $scope.$apply()
       listTasks: [
         {
           regex: /^complete .+/gi
-          lang: 'en-US'
+          lang: LANG
           call: (utterance) ->
             parts = utterance.split(' ')
             if parts.length > 1
@@ -187,7 +188,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
         }
         {
           regex: /^remove .+/gi
-          lang: 'en-US',
+          lang: LANG,
           call: (utterance) ->
             parts = utterance.split(' ')
             if parts.length > 1

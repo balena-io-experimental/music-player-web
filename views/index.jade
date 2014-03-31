@@ -12,7 +12,7 @@ block content
         label(for='toggle-all') Mark all as complete
         ul#todo-list
           li(ng-repeat='(id, todo) in todos | todoFilter | orderBy:"id":true', ng-class='{completed: todo.completed, editing: todo == editedTodo}')
-            .view(speechrecognition='{"tasks": recognition["en-US"]["listTasks"], "thing": todo.title}')
+            .view(speechrecognition='{"tasks": recognition["en-US"]["listTasks"], "reference": todo.title}')
               input.toggle(type='checkbox', ng-model='todo.completed', ng-change='todos.$save(id)')
               label(ng-dblclick='editTodo(id)') {{todo.title}}
               button.destroy(ng-click='removeTodo(id)')
@@ -43,18 +43,4 @@ block content
       p clear completed tasks
       p complete SONG
       p remove SONG
-      h3 Credits:
-      a(href='http://twitter.com/janantala') Jan Antala
-      h3 TODO MVC
-      p
-        | Credits:
-        a(href='http://twitter.com/cburgdorf') Christoph Burgdorf
-        | ,
-        a(href='http://ericbidelman.com') Eric Bidelman
-        | ,
-        a(href='http://jacobmumm.com') Jacob Mumm
-        | and
-        a(href='http://igorminar.com') Igor Minar
-      p
-        | Part of
-        a(href='http://todomvc.com') TodoMVC
+

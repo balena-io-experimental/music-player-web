@@ -1,9 +1,9 @@
 define [
   'app/todomvc',
   'c/todoCtrl',
-  'd/todoFocus',
-  'd/todoBlur',
-  'd/todoEscape'
+  'd/onFocus',
+  'd/onBlur',
+  'd/onEscape'
 ], (todomvc, todoCtrl, todoFocus, todoBlur, todoEscape) ->
   todomvc
     .controller 'TodoCtrl', todoCtrl
