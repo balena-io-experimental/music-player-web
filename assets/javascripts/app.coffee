@@ -1,12 +1,12 @@
 define [
-  'app/todomvc',
-  'c/todoCtrl',
+  'app/playlist',
+  'c/playlistCtrl',
   'd/onFocus',
   'd/onBlur',
   'd/onEscape'
-], (todomvc, todoCtrl, todoFocus, todoBlur, todoEscape) ->
-  todomvc
-    .controller 'TodoCtrl', todoCtrl
+], (playlist, playlistCtrl, todoFocus, todoBlur, todoEscape) ->
+  playlist
+    .controller 'PlaylistCtrl', playlistCtrl
     .directive 'todoFocus', todoFocus
     .directive 'todoBlur', todoBlur
     .directive 'todoEscape', todoEscape

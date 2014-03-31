@@ -9,7 +9,6 @@
     "angular-adaptive-speech": "0.3.0",
     "angular-resource": "1.2.9",
     "angular-route": "1.2.9",
-    "firebase": "~1.0.11",
-    "todomvc-common": "~0.1.4"
+    "firebase": "~1.0.11"
   }
 }

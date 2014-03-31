@@ -1,46 +1,56 @@
 extend layout
 
 block content
-  div(ng-app="todomvc", data-framework="firebase")
-    section#todoapp(ng-controller='TodoCtrl')
-      header#header
+  .container(ng-app="playlist", data-framework="firebase")
+    section(ng-controller='PlaylistCtrl')
+      header
         h1 Playlist
-        form#todo-form(ng-submit='addTodo()')
-          input#new-todo(placeholder='What do you want to play?', ng-model='newTodo', autofocus)
-      section#main(ng-show='totalCount', ng-cloak)
-        input#toggle-all(type='checkbox', ng-model='allChecked', ng-click='markAll(allChecked)')
-        label(for='toggle-all') Mark all as complete
-        ul#todo-list
-          li(ng-repeat='(id, todo) in todos | todoFilter | orderBy:"id":true', ng-class='{completed: todo.completed, editing: todo == editedTodo}')
-            .view(speechrecognition='{"tasks": recognition["en-US"]["listTasks"], "reference": todo.title}')
-              input.toggle(type='checkbox', ng-model='todo.completed', ng-change='todos.$save(id)')
-              label(ng-dblclick='editTodo(id)') {{todo.title}}
-              button.destroy(ng-click='removeTodo(id)')
-            form(ng-submit='doneEditing(id)')
-              input.edit(ng-model='todo.title', todo-escape='revertEditing(id)', todo-blur='doneEditing(id)', todo-focus='todo == editedTodo')
-      footer#footer(ng-show='totalCount', ng-cloak)
+        form(ng-submit='addTodo()', role="form")
+          input.form-control(placeholder='What do you want to play?', ng-model='newTodo', autofocus)
+      section(ng-show='totalCount', ng-cloak)
+        .checkbox
+          label
+            input(type='checkbox', ng-model='allChecked', ng-click='markAll(allChecked)')
+            | Mark all as complete
+        table.playlist.table.table-striped
+          colgroup
+            col(width="10%")
+            col(width="80%")
+            col(width="10%")
+          tbody
+            tr(
+              ng-repeat='(id, todo) in todos | orderBy:"id":true',
+              ng-class='{editing: todo == editedTodo}'
+            )
+              td
+                input(type='checkbox', ng-model='todo.completed', ng-change='todos.$save(id)')
+              td(ng-class='{"text-muted": todo.completed}')
+                p.form-control-static: label.view(
+                  ng-dblclick='editTodo(id)',
+                  speechrecognition='{tasks: recognition["en-US"].listTasks, reference: todo.title}'
+                )
+                  | {{todo.title}}
+                form.edit(ng-submit='doneEditing(id)')
+                  input.form-control(
+                    ng-model='todo.title',
+                    todo-escape='revertEditing(id)',
+                    todo-blur='doneEditing(id)',
+                    todo-focus='todo == editedTodo'
+                  )
+              td
+                button.btn.btn-sm.btn-danger(ng-click='removeTodo(id)'): &times;
+      footer#footer(ng-show='!!totalCount', ng-cloak)
         span#todo-count
           strong {{remainingCount}}&nbsp;
           ng-pluralize(count='remainingCount', when='{ one: "song left", other: "songs left" }')
-        ul#filters
-          li
-            a(ng-class='{selected: location.path() == "/"} ', href='#/') All
-          li
-            a(ng-class='{selected: location.path() == "/active"}', href='#/active') Active
-          li
-            a(ng-class='{selected: location.path() == "/completed"}', href='#/completed') Completed
-        button#clear-completed(ng-click='clearCompletedTodos()', ng-show='completedCount') Clear completed ({{completedCount}})
-    footer#info
-      h3 Voice commands:
-      p play SONG
-      p start music
-      p stop music
-      p show all tasks
-      p show active tasks
-      p show completed tasks
-      p mark all tasks
-      p unmark all tasks
-      p clear completed tasks
-      p complete SONG
-      p remove SONG
+        button.btn.btn-link(type="button", ng-click="clearCompletedTodos()", ng-show="!!completedCount") Clear completed
+    footer
+      strong Voice commands:
+      ul
+        li play SONG
+        li start music
+        li next
+        li remove SONG
+        li stop music
+        li clear completed
 

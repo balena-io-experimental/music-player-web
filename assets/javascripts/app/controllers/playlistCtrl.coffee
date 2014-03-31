@@ -8,7 +8,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
     - retrieves and persists the model via the $firebase service
     - exposes the model to the template and provides event handlers
   ###
-  TodoCtrl = ($scope, $location, $firebase, $speechRecognition, $speechSynthetis) ->
+  ($scope, $location, $firebase, $speechRecognition, $speechSynthetis) ->
     fireRef = new Firebase('https://vocalist.firebaseio.com')
 
     $scope.$watch 'todos', ->
@@ -77,7 +77,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
 
     if $location.path() == ''
       $location.path('/')
-    $scope.location = $location;
+    $scope.location = $location
 
     # Bind the todos to the firebase provider.
     $scope.todos = $firebase(fireRef.child('playlist'))
@@ -111,16 +111,18 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
       $speechSynthetis.speak('What songs do you want to play?', LANG)
 
     $speechRecognition.onerror (e) ->
-      debugger
       error = e.error || ''
       alert('An error occurred ' + error)
     $speechRecognition.payAttention()
-    #$speechRecognition.setLang(LANG)
+    $speechRecognition.setLang(LANG)
     $speechRecognition.listen()
 
-    $scope.recognition = {}
+    $speechRecognition.onUtterance (utterance) ->
+      console.log utterance
+
+    $scope.recognition = recognition = {}
     $scope.recognition[LANG] =
-      'addToList':
+      playSong:
         regex: /^play .+/gi
         lang: LANG
         call: (utterance) ->
@@ -129,49 +131,19 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
             $scope.newTodo = parts.slice(1).join(' ')
             $scope.addTodo()
             $scope.$apply()
-      'start-music':
+      startMusic:
         regex: /start.*music/gi
         lang: LANG
         call: (utterance) ->
           $scope.playing.$set(true)
           $scope.$apply()
-      'stop-music':
+      stopMusic:
         regex: /stop.*music/gi
         lang: LANG
         call: (utterance) ->
           $scope.playing.$set(false)
           $scope.$apply()
-      'show-all':
-        regex: /show.*all/gi
-        lang: LANG
-        call: (utterance) ->
-          $location.path('/')
-          $scope.$apply()
-      'show-active':
-        regex: /show.*active/gi
-        lang: LANG
-        call: (utterance) ->
-          $location.path('/active')
-          $scope.$apply()
-      'show-completed':
-        regex: /show.*complete/gi,
-        lang: LANG
-        call: (utterance) ->
-          $location.path('/completed')
-          $scope.$apply()
-      'mark-all':
-        regex: /^mark/gi
-        lang: LANG
-        call: (utterance) ->
-          $scope.markAll(1)
-          $scope.$apply()
-      'unmark-all':
-        regex: /^unmark/gi
-        lang: LANG
-        call: (utterance) ->
-          $scope.markAll(1)
-          $scope.$apply()
-      'clear-completed':
+      clearCompleted:
         regex: /clear.*/gi
         lang: LANG
         call: (utterance) ->
@@ -202,17 +174,12 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
       ]
 
     ignoreUtterance = {}
-    ignoreUtterance['addToList'] = $speechRecognition.listenUtterance($scope.recognition['en-US']['addToList']);
-    ignoreUtterance['show-all'] = $speechRecognition.listenUtterance($scope.recognition['en-US']['show-all']);
-    ignoreUtterance['start-music'] = $speechRecognition.listenUtterance($scope.recognition['en-US']['start-music']);
-    ignoreUtterance['stop-music'] = $speechRecognition.listenUtterance($scope.recognition['en-US']['stop-music']);
-    ignoreUtterance['show-active'] = $speechRecognition.listenUtterance($scope.recognition['en-US']['show-active']);
-    ignoreUtterance['show-completed'] = $speechRecognition.listenUtterance($scope.recognition['en-US']['show-completed']);
-    ignoreUtterance['mark-all'] = $speechRecognition.listenUtterance($scope.recognition['en-US']['mark-all']);
-    ignoreUtterance['unmark-all'] = $speechRecognition.listenUtterance($scope.recognition['en-US']['unmark-all']);
-    ignoreUtterance['clear-completed'] = $speechRecognition.listenUtterance($scope.recognition['en-US']['clear-completed']);
+    for k, v of recognition[LANG]
+      if v instanceof Array
+        continue
+      ignoreUtterance[k] = $speechRecognition.listenUtterance(v)
 
     ###
      to ignore listener call returned function
     ###
-    # ignoreUtterance['addToList']();
+    # ignoreUtterance['addToList']()
