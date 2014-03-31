@@ -20,8 +20,8 @@ block content
               input.edit(ng-model='todo.title', todo-escape='revertEditing(id)', todo-blur='doneEditing(id)', todo-focus='todo == editedTodo')
       footer#footer(ng-show='totalCount', ng-cloak)
         span#todo-count
-          strong {{remainingCount}}
-          ng-pluralize(count='remainingCount', when='{ one: "item left", other: "songs left" }')
+          strong {{remainingCount}}&nbsp;
+          ng-pluralize(count='remainingCount', when='{ one: "song left", other: "songs left" }')
         ul#filters
           li
             a(ng-class='{selected: location.path() == "/"} ', href='#/') All
