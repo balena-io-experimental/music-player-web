@@ -16,8 +16,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
       remaining = 0
       $scope.songs.$getIndex().forEach (id) ->
         song = $scope.songs[id]
-        # Skip invalid entries so they don't break the entire app.
-        if not song or not song.title
+        if not song
           return
 
         total++
