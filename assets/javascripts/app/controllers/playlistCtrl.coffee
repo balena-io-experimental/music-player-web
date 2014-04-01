@@ -14,8 +14,8 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
     $scope.$watch 'songs', ->
       total = 0
       remaining = 0
-      $scope.songs.$getIndex().forEach (index) ->
-        song = $scope.songs[index]
+      $scope.songs.$getIndex().forEach (id) ->
+        song = $scope.songs[id]
         # Skip invalid entries so they don't break the entire app.
         if not song or not song.title
           return
@@ -66,9 +66,9 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
       $scope.songs.$save(id)
 
     $scope.clearCompletedSongs = ->
-      angular.forEach $scope.songs.$getIndex(), (index) ->
-        if $scope.songs[index].completed
-          $scope.songs.$remove(index)
+      angular.forEach $scope.songs.$getIndex(), (id) ->
+        if $scope.songs[id].completed
+          $scope.songs.$remove(id)
 
     $scope.newSong = ''
     $scope.editedSong = null
@@ -87,20 +87,18 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
     ###
 
     findSong = (title) ->
-      match = -1
-      matches = $scope.songs.$getIndex().forEach (index) ->
-        song = $scope.songs[index]
+      matches = $scope.songs.$getIndex().forEach (id) ->
+        song = $scope.songs[id]
         if song.title == title
-          match = index
-          return
-      return match
+          return id
+      return
 
     completeSong = (title) ->
-      index = findSong(title)
-      if index >= 0
-        song = $scope.songs[index]
+      id = findSong(title)
+      if id
+        song = $scope.songs[id]
         song.completed = not song.completed
-        $scope.toggleCompleted(index)
+        $scope.toggleCompleted(id)
         $scope.$apply()
         return true
 
@@ -165,9 +163,9 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
             parts = utterance.split(' ')
             if parts.length > 1
               title = parts[1...].join(' ')
-              index = findSong(title)
-              if index >= 0
-                $scope.removeSong(index)
+              id = findSong(title)
+              if id
+                $scope.removeSong(id)
                 $scope.$apply()
         }
       ]
