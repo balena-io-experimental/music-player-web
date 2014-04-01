@@ -21,12 +21,18 @@ block content
             )
               td
                 span.glyphicon.glyphicon-ok(ng-show='song.completed')
+                span(ng-show='id == playing.songId')
+                  span.glyphicon.glyphicon-play
+                  strong &nbsp;{{song.progress | duration}}
               td(ng-class='{"text-muted": song.completed}')
                 p.form-control-static(ng-show="song != editedSong")
                   label.view(
                     ng-dblclick='editSong(id)',
                     speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
                   )
+                    span(ng-show="!!song.songTitle")
+                      | {{song.artistTitle}} - {{song.songTitle}}
+                      br
                     | {{song.title}}
                 form(
                   ng-submit='doneEditing(id)',

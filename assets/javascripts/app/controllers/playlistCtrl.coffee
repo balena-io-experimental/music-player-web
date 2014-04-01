@@ -87,7 +87,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
     ###
 
     findSong = (title) ->
-      matches = $scope.songs.$getIndex().forEach (id) ->
+      $scope.songs.$getIndex().forEach (id) ->
         song = $scope.songs[id]
         if song.title == title
           return id
@@ -132,13 +132,13 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
         regex: /start.*music/gi
         lang: LANG
         call: (utterance) ->
-          $scope.playing.$set(true)
+          $scope.playing.$child('shouldPlay').$set(true)
           $scope.$apply()
       stopMusic:
         regex: /stop.*music/gi
         lang: LANG
         call: (utterance) ->
-          $scope.playing.$set(false)
+          $scope.playing.$set shouldPlay: false
           $scope.$apply()
       clearCompleted:
         regex: /clear.*/gi
@@ -151,6 +151,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
           regex: /^complete .+/gi
           lang: LANG
           call: (utterance) ->
+            # TODO: only do for now playing
             parts = utterance.split(' ')
             if parts.length > 1
               title = parts[1...].join(' ')
@@ -160,6 +161,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
           regex: /^remove .+/gi
           lang: LANG,
           call: (utterance) ->
+            # TODO: only do for not complete
             parts = utterance.split(' ')
             if parts.length > 1
               title = parts[1...].join(' ')
