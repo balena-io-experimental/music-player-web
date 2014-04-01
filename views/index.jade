@@ -30,10 +30,11 @@ block content
                     ng-dblclick='editSong(id)',
                     speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
                   )
-                    span(ng-show="!!song.songTitle")
-                      | {{song.artistTitle}} - {{song.songTitle}}
-                      br
                     | {{song.title}}
+                    span(ng-show="!!song.origTitle")
+                      br
+                      em {{song.origTitle}}
+
                 form(
                   ng-submit='doneEditing(id)',
                   ng-show="song == editedSong",
