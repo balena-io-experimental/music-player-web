@@ -1,12 +1,12 @@
 define [
   'app/playlist',
   'c/playlistCtrl',
-  'd/onFocus',
+  'd/focusIf',
   'd/onBlur',
   'd/onEscape'
-], (playlist, playlistCtrl, onFocus, onBlur, onEscape) ->
+], (playlist, playlistCtrl, focusIf, onBlur, onEscape) ->
   playlist
     .controller 'PlaylistCtrl', playlistCtrl
-    .directive 'onFocus', onFocus
+    .directive 'focusIf', focusIf
     .directive 'onBlur', onBlur
     .directive 'onEscape', onEscape

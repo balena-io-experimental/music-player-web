@@ -8,7 +8,7 @@ define ->
   ###
   ($timeout) ->
     (scope, elem, attrs) ->
-      scope.$watch attrs.onFocus, (newVal) ->
+      scope.$watch attrs.focusIf, (newVal) ->
         if newVal
           $timeout ->
             elem[0].focus()

@@ -7,6 +7,7 @@ block content
         h1 Playlist
         form(ng-submit='addSong()', role="form")
           input.form-control(placeholder='What do you want to play?', ng-model='newSong', autofocus)
+          br
       section(ng-show='totalCount', ng-cloak)
         table.playlist.table.table-striped
           colgroup
@@ -19,7 +20,7 @@ block content
               ng-class='{editing: song == editedSong}'
             )
               td
-                input(type='checkbox', ng-model='song.completed', ng-change='songs.$save(id)')
+                span.glyphicon.glyphicon-ok(ng-show='song.completed')
               td(ng-class='{"text-muted": song.completed}')
                 p.form-control-static: label.view(
                   ng-dblclick='editSong(id)',
@@ -31,7 +32,7 @@ block content
                     ng-model='song.title',
                     on-escape='revertEditing(id)',
                     on-blur='doneEditing(id)',
-                    on-focus='song == editedSong'
+                    focus-if='song == editedSong'
                   )
               td
                 | &nbsp;
@@ -41,13 +42,17 @@ block content
           strong {{remainingCount}}&nbsp;
           ng-pluralize(count='remainingCount', when='{ one: "song left", other: "songs left" }')
         button.btn.btn-link(type="button", ng-click="clearCompletedSongs()", ng-show="!!completedCount") Clear completed
-    footer
+    footer.well
       strong Voice commands:
-      ul
-        li play SONG
-        li start music
-        li next
-        li remove SONG
-        li stop music
-        li clear completed
-
+      p.commands-list
+        span.label.label-default play SONG
+        | &nbsp;
+        span.label.label-default start music
+        | &nbsp;
+        span.label.label-default next
+        | &nbsp;
+        span.label.label-default remove SONG
+        | &nbsp;
+        span.label.label-default stop music
+        | &nbsp;
+        span.label.label-default clear completed
