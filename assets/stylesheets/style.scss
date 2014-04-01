@@ -3,21 +3,11 @@
 
 .playlist {
   tr {
-    height: 52px;
+    height: 47px;
   }
-  .view {
-    display: block;
-  }
-  .edit {
-    display: none;
-  }
-  .editing {
-    .view {
-      display: none;
-    }
-    .edit {
-      display: block;
-    }
+  .btn-delete {
+    position: relative;
+    top: 3px;
   }
 }
 

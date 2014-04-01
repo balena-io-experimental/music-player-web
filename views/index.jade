@@ -22,21 +22,27 @@ block content
               td
                 span.glyphicon.glyphicon-ok(ng-show='song.completed')
               td(ng-class='{"text-muted": song.completed}')
-                p.form-control-static: label.view(
-                  ng-dblclick='editSong(id)',
-                  speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
+                p.form-control-static(ng-show="song != editedSong")
+                  label.view(
+                    ng-dblclick='editSong(id)',
+                    speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
+                  )
+                    | {{song.title}}
+                form(
+                  ng-submit='doneEditing(id)',
+                  ng-show="song == editedSong",
                 )
-                  | {{song.title}}
-                form.edit(ng-submit='doneEditing(id)')
-                  input.form-control(
+                  input.form-control.input-sm(
                     ng-model='song.title',
                     on-escape='revertEditing(id)',
                     on-blur='doneEditing(id)',
                     focus-if='song == editedSong'
                   )
               td
-                | &nbsp;
-                -// button.btn.btn-sm.btn-danger(ng-click='removeSong(id)'): &times;
+                button.btn.btn-xs.btn-danger.btn-delete(
+                  ng-click='removeSong(id)',
+                  ng-show="!song.completed"
+                ) &times;
       footer#footer(ng-show='!!totalCount', ng-cloak)
         span#song-count
           strong {{remainingCount}}&nbsp;
