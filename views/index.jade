@@ -20,10 +20,10 @@ block content
               ng-class='{editing: song == editedSong}'
             )
               td
-                span.glyphicon.glyphicon-ok(ng-show='song.completed')
+                span.text-muted.glyphicon.glyphicon-ok(ng-show='song.completed')
                 span(ng-show='id == playing.songId')
                   span.glyphicon.glyphicon-play
-                  strong &nbsp;{{song.progress | duration}}
+                  strong &nbsp;{{playing.progress | duration}}
               td(ng-class='{"text-muted": song.completed}')
                 p.form-control-static(ng-show="song != editedSong")
                   label.view(
@@ -47,7 +47,7 @@ block content
               td
                 button.btn.btn-xs.btn-danger.btn-delete(
                   ng-click='removeSong(id)',
-                  ng-show="!song.completed"
+                  ng-show="!song.completed && id != playing.songId"
                 ) &times;
       footer#footer(ng-show='!!totalCount', ng-cloak)
         span#song-count
