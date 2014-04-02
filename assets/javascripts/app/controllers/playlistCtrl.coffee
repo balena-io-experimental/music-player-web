@@ -64,6 +64,22 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
       song.completed = not song.completed
       $scope.songs.$save(id)
 
+    $scope.nextSong = ->
+      $scope.stopMusic()
+      id = $scope.playing?.songId
+      song = $scope.songs[id]
+      if song
+        song.completed = true
+      setTimeout ->
+        $scope.startMusic()
+      , 500
+
+    $scope.startMusic = ->
+      $scope.playing.$child('shouldPlay').$set(true)
+
+    $scope.stopMusic = ->
+      $scope.playing.$set shouldPlay: false
+
     $scope.clearCompletedSongs = ->
       angular.forEach $scope.songs.$getIndex(), (id) ->
         if $scope.songs[id].completed
@@ -131,13 +147,13 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
         regex: /start.*music/gi
         lang: LANG
         call: (utterance) ->
-          $scope.playing.$child('shouldPlay').$set(true)
+          $scope.startMusic()
           $scope.$apply()
       stopMusic:
         regex: /stop.*music/gi
         lang: LANG
         call: (utterance) ->
-          $scope.playing.$set shouldPlay: false
+          $scope.stopMusic()
           $scope.$apply()
       clearCompleted:
         regex: /clear.*/gi
@@ -145,17 +161,13 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
         call: (utterance) ->
           $scope.clearCompletedSongs()
           $scope.$apply()
+      next:
+        regex: /next.*/gi
+        lang: LANG
+        call: (utterance) ->
+          $scope.nextSong()
+          $scope.$apply()
       listTasks: [
-        {
-          regex: /^complete .+/gi
-          lang: LANG
-          call: (utterance) ->
-            # TODO: only do for now playing
-            parts = utterance.split(' ')
-            if parts.length > 1
-              title = parts[1...].join(' ')
-              completeSong(title)
-        }
         {
           regex: /^remove .+/gi
           lang: LANG,
