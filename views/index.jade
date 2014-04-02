@@ -38,14 +38,15 @@ block content
                   strong &nbsp;{{playing.progress | duration}}
               td(ng-class='{"text-muted": song.completed}')
                 p.form-control-static(ng-show="song != editedSong")
-                  label.view(
+                  strong(
                     ng-dblclick='editSong(id)',
                     speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
                   )
                     | {{song.detectedTitle || song.title}}
-                    span(ng-show="!!song.origTitle")
-                      br
-                      em {{song.origTitle}}
+                  span(ng-show="!!song.origTitle")
+                    br
+                    | You asked for:&nbsp;
+                    em {{song.origTitle}}
 
                 form(
                   ng-submit='doneEditing(id)',
