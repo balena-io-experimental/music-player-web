@@ -38,6 +38,8 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
       $scope.newSong = ''
 
     $scope.editSong = (id) ->
+      if id == $scope.playing.songId
+        return
       editedSong = $scope.songs[id]
       if editedSong.completed
         return
@@ -72,7 +74,8 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
         song.completed = true
       setTimeout ->
         $scope.startMusic()
-      , 500
+        $scope.apply()
+      , 1000
 
     $scope.startMusic = ->
       $scope.playing.$child('shouldPlay').$set(true)
