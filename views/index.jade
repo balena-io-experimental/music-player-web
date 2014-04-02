@@ -8,16 +8,18 @@ block content
         form(ng-submit='addSong()', role="form")
           input.form-control(placeholder='What do you want to play?', ng-model='newSong', autofocus)
           br
-        p.btn-toolbar
-          .btn.btn-success(ng-show="!playing.shouldPlay", ng-click="startMusic()", ng-cloak)
+        p.btn-toolbar(ng-cloak)
+          button.btn.btn-success(ng-show="!playing.shouldPlay", ng-click="startMusic()", type="button")
             span.glyphicon.glyphicon-play
             | &nbsp;Start music
-          .btn.btn-danger(ng-show="playing.shouldPlay", ng-click="stopMusic()", ng-cloak)
+          button.btn.btn-danger(ng-show="playing.shouldPlay", ng-click="stopMusic()", type="button")
             span.glyphicon.glyphicon-stop
             | &nbsp;Stop music
-          .btn.btn-info(ng-show="playing.shouldPlay", ng-click="nextSong()", ng-cloak)
-            span.glyphicon.glyphicon-step-forward
-            | &nbsp;Next
+          span(ng-show="playing.shouldPlay")
+            | &nbsp;
+            button.btn.btn-info(ng-click="nextSong()", type="button")
+              span.glyphicon.glyphicon-step-forward
+              | &nbsp;Next
       section(ng-show='totalCount', ng-cloak)
         table.playlist.table.table-striped
           colgroup
