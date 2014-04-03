@@ -1,3 +1,9 @@
+.main {
+  footer {
+    margin: 10px 0;
+  }
+}
+
 .playlist {
   tr {
     height: 47px;
@@ -9,5 +15,8 @@
 }
 
 .commands-list {
-  font-size: 120%;
+  font-size: 130%;
+  .label {
+    margin-bottom: 5px;
+  }
 }

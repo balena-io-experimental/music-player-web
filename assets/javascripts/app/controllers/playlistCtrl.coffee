@@ -1,5 +1,5 @@
 #global require, define
-define ['angular', 'firebase'], (anfular, Firebase) ->
+define ['angular', 'firebase'], (angular, Firebase) ->
 
   'use strict'
 

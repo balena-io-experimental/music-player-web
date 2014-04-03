@@ -2,7 +2,7 @@ extend layout
 
 block content
   .container(ng-app="playlist", data-framework="firebase")
-    section(ng-controller='PlaylistCtrl')
+    section.main(ng-controller='PlaylistCtrl')
       header
         h1 Playlist
         form(ng-submit='addSong()', role="form")
@@ -36,10 +36,9 @@ block content
                 span(ng-show='id == playing.songId')
                   span.glyphicon.glyphicon-play
                   strong &nbsp;{{playing.progress | duration}}
-              td(ng-class='{"text-muted": song.completed}')
+              td(ng-class='{"text-muted": song.completed}', ng-dblclick='editSong(id)')
                 p.form-control-static(ng-show="song != editedSong")
                   strong(
-                    ng-dblclick='editSong(id)',
                     speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
                   )
                     | {{song.title}}
@@ -63,22 +62,27 @@ block content
                   ng-click='removeSong(id)',
                   ng-show="!song.completed && id != playing.songId"
                 ) &times;
-      footer#footer(ng-show='!!totalCount', ng-cloak)
-        span#song-count
+      footer.clearfix(ng-show='!!totalCount', ng-cloak)
+        .pull-left
           strong {{remainingCount}}&nbsp;
           ng-pluralize(count='remainingCount', when='{ one: "song left", other: "songs left" }')
-        button.btn.btn-link(type="button", ng-click="clearCompletedSongs()", ng-show="!!completedCount") Clear completed
-    footer.well
-      strong Voice commands:
+        .pull-right
+          button.btn.btn-sm.btn-warning(
+            type="button",
+            ng-click="clearCompletedSongs()",
+            ng-show="!!completedCount"
+          ) Clear completed
+    footer.well.well-sm
+      h1.h4 Voice commands:
       p.commands-list
         span.label.label-default play SONG
-        | &nbsp;
+        | &#32;
         span.label.label-default start music
-        | &nbsp;
+        | &#32;
         span.label.label-default next
-        | &nbsp;
+        | &#32;
         span.label.label-default remove SONG
-        | &nbsp;
+        | &#32;
         span.label.label-default stop music
-        | &nbsp;
+        | &#32;
         span.label.label-default clear completed
