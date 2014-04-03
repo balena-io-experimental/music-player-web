@@ -42,7 +42,7 @@ block content
                     ng-dblclick='editSong(id)',
                     speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
                   )
-                    | {{song.detectedTitle || song.title}}
+                    | {{song.title}}
                   span(ng-show="!!song.origTitle")
                     br
                     | You asked for:&nbsp;

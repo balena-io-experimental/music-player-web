@@ -74,7 +74,7 @@ define ['angular', 'firebase'], (anfular, Firebase) ->
         song.completed = true
       setTimeout ->
         $scope.startMusic()
-        $scope.apply()
+        $scope.$apply()
       , 1000
 
     $scope.startMusic = ->
