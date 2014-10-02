@@ -1,16 +1,17 @@
 {
-  "name": "todomvc-angular",
-  "version": "0.0.0",
+  "name": "music-player-web-front-end",
+  "version": "0.1.0",
   "dependencies": {
+    "requirejs": "2.1.8",
+    "bootstrap": "3.1.1",
     "angular": "1.2.9",
     "angularfire": "~0.5.0",
-    "angular-adaptive-speech": "latest",
-    "todomvc-common": "~0.1.4"
-  },
-  "devDependencies": {
-    "angular-mocks": "1.2.8"
+    "angular-adaptive-speech": "0.3.0",
+    "angular-resource": "1.2.9",
+    "angular-route": "1.2.9",
+    "firebase": "~1.0.11"
   },
   "resolutions": {
-    "angular": "1.2.9"
+    "angular": "1.2.26"
   }
 }
