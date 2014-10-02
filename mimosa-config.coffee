@@ -14,6 +14,8 @@ exports.config =
 		'server-template-compile'
 		'jade-static'
 	]
+	watch:
+		sourceDir: 'src'
 	bower:
 		copy:
 			strategy:

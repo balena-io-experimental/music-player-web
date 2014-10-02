@@ -55,4 +55,4 @@ Thumbs.db
 .#*
 
 # Ignore bower-generated vendor files.
-/assets/javascripts/vendor
+/src/javascripts/vendor
