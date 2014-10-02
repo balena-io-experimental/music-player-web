@@ -16,6 +16,12 @@ exports.config =
 	]
 	watch:
 		sourceDir: 'src'
+	server:
+		views:
+			path: 'src/views'
+	liveReload:
+		additionalDirs: []
+
 	bower:
 		copy:
 			strategy:
