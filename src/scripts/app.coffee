@@ -1,1 +1,1 @@
-define ['app/playlist'], ->
+define [ 'app/playlist' ], ->

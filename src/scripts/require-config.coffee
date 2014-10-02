@@ -13,7 +13,8 @@ require.config
 			exports: 'Firebase'
 		angular:
 			exports: 'angular'
-		'angular-adaptive-speech': ['angular']
-		'angular-resource': ['angular']
-		'angular-route': ['angular']
-		'angular-fire': ['angular', 'firebase']
+
+		'angular-adaptive-speech': [ 'angular' ]
+		'angular-resource': [ 'angular' ]
+		'angular-route': [ 'angular' ]
+		'angular-fire': [ 'angular', 'firebase' ]

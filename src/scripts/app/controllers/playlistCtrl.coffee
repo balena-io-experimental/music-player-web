@@ -1,13 +1,4 @@
-#global require, define
-define ['angular', 'firebase'], (angular, Firebase) ->
-
-	'use strict'
-
-	###
-		The main controller for the app. The controller:
-		- retrieves and persists the model via the $firebase service
-		- exposes the model to the template and provides event handlers
-	###
+define [ 'angular', 'firebase' ], (angular, Firebase) ->
 	($scope, $location, $firebase, $speechRecognition, $speechSynthetis) ->
 		fireRef = new Firebase('https://vocalist.firebaseio.com')
 
@@ -30,19 +21,21 @@ define ['angular', 'firebase'], (angular, Firebase) ->
 
 		$scope.addSong = ->
 			newSong = $scope.newSong.trim()
-			if not newSong.length
-				return
+
+			return if not newSong.length
+
 			$scope.songs.$add
 				title: newSong
 				completed: false
+
 			$scope.newSong = ''
 
 		$scope.editSong = (id) ->
-			if id == $scope.playing.songId
-				return
+			return if id == $scope.playing.songId
+
 			editedSong = $scope.songs[id]
-			if editedSong.completed
-				return
+			return if editedSong.completed
+
 			$scope.editedSong = editedSong
 			$scope.originalSong = angular.extend({}, editedSong)
 
@@ -70,8 +63,8 @@ define ['angular', 'firebase'], (angular, Firebase) ->
 			$scope.stopMusic()
 			id = $scope.playing?.songId
 			song = $scope.songs[id]
-			if song
-				song.completed = true
+			song.completed = true if song
+
 			setTimeout ->
 				$scope.startMusic()
 				$scope.$apply()
@@ -81,7 +74,7 @@ define ['angular', 'firebase'], (angular, Firebase) ->
 			$scope.playing.$child('shouldPlay').$set(true)
 
 		$scope.stopMusic = ->
-			$scope.playing.$set shouldPlay: false
+			$scope.playing.$set(shouldPlay: false)
 
 		$scope.clearCompletedSongs = ->
 			angular.forEach $scope.songs.$getIndex(), (id) ->
@@ -91,41 +84,41 @@ define ['angular', 'firebase'], (angular, Firebase) ->
 		$scope.newSong = ''
 		$scope.editedSong = null
 
-		if $location.path() == ''
-			$location.path('/')
+		$location.path('/') if $location.path() == ''
 		$scope.location = $location
 
 		# Bind the songs to the firebase provider.
 		$scope.songs = $firebase(fireRef.child('playlist'))
-
 		$scope.playing = $firebase(fireRef.child('playing'))
 
-		###
-			Need to be added for speech recognition
-		###
+		# Needed for speech recognition.
 
 		findSong = (title) ->
 			$scope.songs.$getIndex().forEach (id) ->
 				song = $scope.songs[id]
 				if song.title == title
 					return id
+
 			return
 
 		completeSong = (title) ->
 			id = findSong(title)
-			if id
-				song = $scope.songs[id]
-				song.completed = not song.completed
-				$scope.toggleCompleted(id)
-				$scope.$apply()
-				return true
+
+			return if !id
+
+			song = $scope.songs[id]
+			song.completed = not song.completed
+			$scope.toggleCompleted(id)
+			$scope.$apply()
+
+			return true
 
 		LANG = 'en-US'
 		$speechRecognition.onstart (e) ->
 			$speechSynthetis.speak('What songs do you want to play?', LANG)
 
 		$speechRecognition.onerror (e) ->
-			error = e.error || ''
+			error = e.error or ''
 			console.error('An error occurred ' + error)
 
 		$speechRecognition.payAttention()
@@ -133,7 +126,7 @@ define ['angular', 'firebase'], (angular, Firebase) ->
 		$speechRecognition.listen()
 
 		$speechRecognition.onUtterance (utterance) ->
-			console.log utterance
+			console.log(utterance)
 
 		$scope.recognition = recognition = {}
 		$scope.recognition[LANG] =
@@ -171,28 +164,21 @@ define ['angular', 'firebase'], (angular, Firebase) ->
 					$scope.nextSong()
 					$scope.$apply()
 			listTasks: [
-				{
-					regex: /^remove .+/gi
-					lang: LANG,
-					call: (utterance) ->
-						# TODO: only do for not complete
-						parts = utterance.split(' ')
-						if parts.length > 1
-							title = parts[1...].join(' ')
-							id = findSong(title)
-							if id
-								$scope.removeSong(id)
-								$scope.$apply()
-				}
+                regex: /^remove .+/gi
+                lang: LANG,
+                call: (utterance) ->
+                    # TODO: only do for not complete
+                    parts = utterance.split(' ')
+                    if parts.length > 1
+                        title = parts[1...].join(' ')
+                        id = findSong(title)
+                        if id
+                            $scope.removeSong(id)
+                            $scope.$apply()
 			]
 
 		ignoreUtterance = {}
 		for k, v of recognition[LANG]
-			if v instanceof Array
-				continue
-			ignoreUtterance[k] = $speechRecognition.listenUtterance(v)
+			continue if v instanceof Array
 
-		###
-		 to ignore listener call returned function
-		###
-		# ignoreUtterance['addToList']()
+			ignoreUtterance[k] = $speechRecognition.listenUtterance(v)
