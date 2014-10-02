@@ -126,7 +126,7 @@ define ['angular', 'firebase'], (angular, Firebase) ->
 
 		$speechRecognition.onerror (e) ->
 			error = e.error || ''
-			alert('An error occurred ' + error)
+			console.error('An error occurred ' + error)
 
 		$speechRecognition.payAttention()
 		$speechRecognition.setLang(LANG)
