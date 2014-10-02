@@ -1,29 +1,29 @@
 doctype html
 html(lang="en")
-  head
-    meta(charset="utf-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
-    meta(name="viewport", content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no")
-    meta(name="apple-mobile-web-app-capable", content="yes")
-    meta(name="apple-touch-fullscreen", content="yes")
+	head
+		meta(charset="utf-8")
+		meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+		meta(name="viewport", content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no")
+		meta(name="apple-mobile-web-app-capable", content="yes")
+		meta(name="apple-touch-fullscreen", content="yes")
 
-    link(rel="shortcut icon", href="favicon.ico")
+		link(rel="shortcut icon", href="favicon.ico")
 
-    title Resin Music Player Remote Control
+		title Resin Music Player Remote Control
 
-    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootswatch/3.1.1/slate/bootstrap.min.css')
-    link(rel='stylesheet', href='stylesheets/style.css' + cachebust)
-    style.
-      [ng-cloak] { display: none; }
+		link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootswatch/3.1.1/slate/bootstrap.min.css')
+		link(rel='stylesheet', href='stylesheets/style.css' + cachebust)
+		style.
+			[ng-cloak] { display: none; }
 
-    if reload
-      script(src='/socket.io/socket.io.js')
-      script(src='/scripts/reload-client.js')
+		if reload
+			script(src='/socket.io/socket.io.js')
+			script(src='/scripts/reload-client.js')
 
-  body
-    block content
+	body
+		block content
 
-    if optimize
-      script(src='scripts/main-built.js')
-    else
-      script(src='scripts/vendor/requirejs/require.js', data-main='scripts/main.js')
+		if optimize
+			script(src='scripts/main-built.js')
+		else
+			script(src='scripts/vendor/requirejs/require.js', data-main='scripts/main.js')

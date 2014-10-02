@@ -1,88 +1,88 @@
 extend layout
 
 block content
-  .container(ng-app="playlist", data-framework="firebase")
-    section.main(ng-controller='PlaylistCtrl')
-      header
-        h1 Playlist
-        form(ng-submit='addSong()', role="form")
-          input.form-control(placeholder='What do you want to play?', ng-model='newSong', autofocus)
-          br
-        p.btn-toolbar(ng-cloak)
-          button.btn.btn-success(ng-show="!playing.shouldPlay", ng-click="startMusic()", type="button")
-            span.glyphicon.glyphicon-play
-            | &nbsp;Start music
-          button.btn.btn-danger(ng-show="playing.shouldPlay", ng-click="stopMusic()", type="button")
-            span.glyphicon.glyphicon-stop
-            | &nbsp;Stop music
-          span(ng-show="playing.shouldPlay")
-            | &nbsp;
-            button.btn.btn-info(ng-click="nextSong()", type="button")
-              span.glyphicon.glyphicon-step-forward
-              | &nbsp;Next
-      section(ng-show='totalCount', ng-cloak)
-        table.playlist.table.table-striped
-          colgroup
-            col(width="10%")
-            col(width="80%")
-            col(width="10%")
-          tbody
-            tr(
-              ng-repeat='(id, song) in songs | orderBy:"id":true',
-              ng-class='{editing: song == editedSong}'
-            )
-              td
-                span.text-muted.glyphicon.glyphicon-ok(ng-show='song.completed')
-                span(ng-show='id == playing.songId')
-                  span.glyphicon.glyphicon-play
-                  strong &nbsp;{{playing.progress | duration}}
-              td(ng-class='{"text-muted": song.completed}', ng-dblclick='editSong(id)')
-                p.form-control-static(ng-show="song != editedSong")
-                  strong(
-                    speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
-                  )
-                    | {{song.title}}
-                  span(ng-show="!!song.origTitle")
-                    br
-                    | You asked for:&nbsp;
-                    em {{song.origTitle}}
+	.container(ng-app="playlist", data-framework="firebase")
+		section.main(ng-controller='PlaylistCtrl')
+			header
+				h1 Playlist
+				form(ng-submit='addSong()', role="form")
+					input.form-control(placeholder='What do you want to play?', ng-model='newSong', autofocus)
+					br
+				p.btn-toolbar(ng-cloak)
+					button.btn.btn-success(ng-show="!playing.shouldPlay", ng-click="startMusic()", type="button")
+						span.glyphicon.glyphicon-play
+						| &nbsp;Start music
+					button.btn.btn-danger(ng-show="playing.shouldPlay", ng-click="stopMusic()", type="button")
+						span.glyphicon.glyphicon-stop
+						| &nbsp;Stop music
+					span(ng-show="playing.shouldPlay")
+						| &nbsp;
+						button.btn.btn-info(ng-click="nextSong()", type="button")
+							span.glyphicon.glyphicon-step-forward
+							| &nbsp;Next
+			section(ng-show='totalCount', ng-cloak)
+				table.playlist.table.table-striped
+					colgroup
+						col(width="10%")
+						col(width="80%")
+						col(width="10%")
+					tbody
+						tr(
+							ng-repeat='(id, song) in songs | orderBy:"id":true',
+							ng-class='{editing: song == editedSong}'
+						)
+							td
+								span.text-muted.glyphicon.glyphicon-ok(ng-show='song.completed')
+								span(ng-show='id == playing.songId')
+									span.glyphicon.glyphicon-play
+									strong &nbsp;{{playing.progress | duration}}
+							td(ng-class='{"text-muted": song.completed}', ng-dblclick='editSong(id)')
+								p.form-control-static(ng-show="song != editedSong")
+									strong(
+										speechrecognition='{tasks: recognition["en-US"].listTasks, reference: song.title}'
+									)
+										| {{song.title}}
+									span(ng-show="!!song.origTitle")
+										br
+										| You asked for:&nbsp;
+										em {{song.origTitle}}
 
-                form(
-                  ng-submit='doneEditing(id)',
-                  ng-show="song == editedSong",
-                )
-                  input.form-control.input-sm(
-                    ng-model='song.title',
-                    on-escape='revertEditing(id)',
-                    on-blur='doneEditing(id)',
-                    focus-if='song == editedSong'
-                  )
-              td
-                button.btn.btn-xs.btn-danger.btn-delete(
-                  ng-click='removeSong(id)',
-                  ng-show="!song.completed && id != playing.songId"
-                ) &times;
-      footer.clearfix(ng-show='!!totalCount', ng-cloak)
-        .pull-left
-          strong {{remainingCount}}&nbsp;
-          ng-pluralize(count='remainingCount', when='{ one: "song left", other: "songs left" }')
-        .pull-right
-          button.btn.btn-sm.btn-warning(
-            type="button",
-            ng-click="clearCompletedSongs()",
-            ng-show="!!completedCount"
-          ) Clear completed
-    footer.well.well-sm
-      h1.h4 Voice commands:
-      p.commands-list
-        span.label.label-default play SONG
-        | &#32;
-        span.label.label-default start music
-        | &#32;
-        span.label.label-default next
-        | &#32;
-        span.label.label-default remove SONG
-        | &#32;
-        span.label.label-default stop music
-        | &#32;
-        span.label.label-default clear completed
+								form(
+									ng-submit='doneEditing(id)',
+									ng-show="song == editedSong",
+								)
+									input.form-control.input-sm(
+										ng-model='song.title',
+										on-escape='revertEditing(id)',
+										on-blur='doneEditing(id)',
+										focus-if='song == editedSong'
+									)
+							td
+								button.btn.btn-xs.btn-danger.btn-delete(
+									ng-click='removeSong(id)',
+									ng-show="!song.completed && id != playing.songId"
+								) &times;
+			footer.clearfix(ng-show='!!totalCount', ng-cloak)
+				.pull-left
+					strong {{remainingCount}}&nbsp;
+					ng-pluralize(count='remainingCount', when='{ one: "song left", other: "songs left" }')
+				.pull-right
+					button.btn.btn-sm.btn-warning(
+						type="button",
+						ng-click="clearCompletedSongs()",
+						ng-show="!!completedCount"
+					) Clear completed
+		footer.well.well-sm
+			h1.h4 Voice commands:
+			p.commands-list
+				span.label.label-default play SONG
+				| &#32;
+				span.label.label-default start music
+				| &#32;
+				span.label.label-default next
+				| &#32;
+				span.label.label-default remove SONG
+				| &#32;
+				span.label.label-default stop music
+				| &#32;
+				span.label.label-default clear completed
