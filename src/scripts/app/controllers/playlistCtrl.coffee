@@ -164,17 +164,17 @@ define [ 'angular', 'firebase' ], (angular, Firebase) ->
 					$scope.nextSong()
 					$scope.$apply()
 			listTasks: [
-                regex: /^remove .+/gi
-                lang: LANG,
-                call: (utterance) ->
-                    # TODO: only do for not complete
-                    parts = utterance.split(' ')
-                    if parts.length > 1
-                        title = parts[1...].join(' ')
-                        id = findSong(title)
-                        if id
-                            $scope.removeSong(id)
-                            $scope.$apply()
+				regex: /^remove .+/gi
+				lang: LANG,
+				call: (utterance) ->
+					# TODO: only do for not complete
+					parts = utterance.split(' ')
+					if parts.length > 1
+						title = parts[1...].join(' ')
+						id = findSong(title)
+						if id
+							$scope.removeSong(id)
+							$scope.$apply()
 			]
 
 		ignoreUtterance = {}
