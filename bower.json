@@ -10,5 +10,8 @@
     "angular-resource": "1.2.9",
     "angular-route": "1.2.9",
     "firebase": "~1.0.11"
+  },
+  "resolutions": {
+    "angular": "1.2.26"
   }
 }
