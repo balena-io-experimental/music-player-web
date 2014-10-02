@@ -16,11 +16,17 @@ exports.config =
 	]
 	watch:
 		sourceDir: 'src'
+		javascriptDir: 'scripts'
+	vendor:
+		javascripts: 'scripts/vendor'
+		stylesheets: 'stylesheets/vendor'
 	server:
 		views:
 			path: 'src/views'
 	liveReload:
 		additionalDirs: []
+	template:
+		outputFileName: 'scripts/templates'
 
 	bower:
 		copy:

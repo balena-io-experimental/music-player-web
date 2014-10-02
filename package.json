@@ -1,7 +1,7 @@
 {
   "name": "music-player-web-front-end",
-  "version": "0.0.1",
-  "description": "A Mimosa starter skeleton",
+  "version": "0.1.0",
+  "description": "Frontend to the Resin.io Music Player",
   "dependencies": {
     "consolidate": "0.10.0",
     "jade": "0.35.0",

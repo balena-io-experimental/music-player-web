@@ -18,12 +18,12 @@ html(lang="en")
 
     if reload
       script(src='/socket.io/socket.io.js')
-      script(src='/javascripts/reload-client.js')
+      script(src='/scripts/reload-client.js')
 
   body
     block content
 
     if optimize
-      script(src='javascripts/main-built.js')
+      script(src='scripts/main-built.js')
     else
-      script(src='javascripts/vendor/requirejs/require.js', data-main='javascripts/main.js')
+      script(src='scripts/vendor/requirejs/require.js', data-main='scripts/main.js')
