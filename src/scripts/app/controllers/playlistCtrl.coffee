@@ -1,4 +1,5 @@
 define [ 'angular', 'firebase' ], (angular, Firebase) ->
+
 	($scope, $location, $firebase, $speechRecognition, $speechSynthetis) ->
 		fireRef = new Firebase('https://vocalist.firebaseio.com')
 
@@ -7,12 +8,11 @@ define [ 'angular', 'firebase' ], (angular, Firebase) ->
 			remaining = 0
 			$scope.songs.$getIndex().forEach (id) ->
 				song = $scope.songs[id]
-				if not song
-					return
+				return if not song
 
 				total++
-				if song.completed == false
-					remaining++
+				remaining++ if song.completed == false
+
 			$scope.totalCount = total
 			$scope.remainingCount = remaining
 			$scope.completedCount = total - remaining
@@ -21,7 +21,6 @@ define [ 'angular', 'firebase' ], (angular, Firebase) ->
 
 		$scope.addSong = ->
 			newSong = $scope.newSong.trim()
-
 			return if not newSong.length
 
 			$scope.songs.$add
@@ -103,7 +102,6 @@ define [ 'angular', 'firebase' ], (angular, Firebase) ->
 
 		completeSong = (title) ->
 			id = findSong(title)
-
 			return if !id
 
 			song = $scope.songs[id]
