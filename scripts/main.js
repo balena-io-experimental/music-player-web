@@ -1,0 +1,1 @@
+window.name="NG_DEFER_BOOTSTRAP!",require(["require-config"],function(){return require(["angular","app"],function(e){return e.element().ready(function(){return e.resumeBootstrap()})})});
