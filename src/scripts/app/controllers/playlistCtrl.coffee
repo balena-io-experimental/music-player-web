@@ -1,7 +1,7 @@
-define [ 'angular', 'firebase' ], (angular, Firebase) ->
+define [ 'angular', 'json!config.json', 'firebase' ], (angular, config, Firebase) ->
 
 	($scope, $location, $firebase, $speechRecognition, $speechSynthetis) ->
-		fireRef = new Firebase('https://vocalist.firebaseio.com')
+		fireRef = new Firebase(config.firebaseUrl)
 
 		$scope.$watch 'songs', ->
 			total = 0

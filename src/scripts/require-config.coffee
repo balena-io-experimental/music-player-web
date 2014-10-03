@@ -8,6 +8,8 @@ require.config
 		'angular-adaptive-speech': 'vendor/angular-adaptive-speech/angular-adaptive-speech'
 		c: 'app/controllers'
 		d: 'app/directives'
+		text: 'vendor/requirejs-text/text'
+		json: 'vendor/requirejs-plugins/json'
 	shim:
 		firebase:
 			exports: 'Firebase'

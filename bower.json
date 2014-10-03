@@ -1,6 +1,6 @@
 {
   "name": "music-player-web-front-end",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "dependencies": {
     "requirejs": "2.1.8",
     "bootstrap": "3.1.1",
@@ -9,7 +9,9 @@
     "angular-adaptive-speech": "0.3.0",
     "angular-resource": "1.2.9",
     "angular-route": "1.2.9",
-    "firebase": "~1.0.11"
+    "firebase": "~1.0.11",
+    "requirejs-plugins": "~1.0.2",
+    "requirejs-text": "~2.0.12"
   },
   "resolutions": {
     "angular": "1.2.26"
