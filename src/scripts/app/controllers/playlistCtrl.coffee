@@ -95,8 +95,7 @@ define [ 'angular', 'firebase' ], (angular, Firebase) ->
 		findSong = (title) ->
 			$scope.songs.$getIndex().forEach (id) ->
 				song = $scope.songs[id]
-				if song.title == title
-					return id
+				return id if song.title == title
 
 			return
 
