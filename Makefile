@@ -26,6 +26,8 @@ buildo:
 clean:
 	@echo "[x] Removing compiled files..."
 	@mimosa clean
+    # This doesn't actually clean everything. But this does :-)
+	@git clean -dfx -e node_modules/
 
 pack:
 	@echo "[x] Building and packaging application..."
