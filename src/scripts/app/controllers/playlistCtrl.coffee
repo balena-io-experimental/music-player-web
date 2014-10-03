@@ -90,7 +90,7 @@ define [ 'angular', 'firebase' ], (angular, Firebase) ->
 		$scope.songs = $firebase(fireRef.child('playlist'))
 		$scope.playing = $firebase(fireRef.child('playing'))
 
-		# Needed for speech recognition.
+		# Speech Recognition -----> TODO: Separate into service/directive.
 
 		findSong = (title) ->
 			$scope.songs.$getIndex().forEach (id) ->
