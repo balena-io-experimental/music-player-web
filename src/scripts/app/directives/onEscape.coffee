@@ -1,4 +1,4 @@
-define ->
+define -> ->
 	ESCAPE_KEY = 27
 
 	(scope, elem, attrs) ->
