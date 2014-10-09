@@ -1,7 +1,15 @@
 define [ 'angular', 'json!config.json', 'firebase' ], (angular, config, Firebase) ->
 
 	($scope, $location, $firebase, $speechRecognition, $speechSynthetis) ->
-		fireRef = new Firebase(config.firebaseUrl)
+
+		prefix = $location.url().split('/')?[1]
+		if prefix
+			firebaseUrl = "http://#{prefix}.firebaseio.com"
+		else
+			{ firebaseUrl } = config
+
+		console.log('Connecting to', firebaseUrl)
+		fireRef = new Firebase(firebaseUrl)
 
 		$scope.$watch 'songs', ->
 			total = 0
