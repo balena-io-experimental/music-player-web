@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <link rel="shortcut icon" href="favicon.ico">
+        <title>Resin Music Player Remote Control</title>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/slate/bootstrap.min.css">
+        <link rel="stylesheet" href="stylesheets/style.css?b=0.1.3">
+        <style>
+            [ng-cloak] { display: none; }
+        </style>
+    </head>
+    
+    <body>
+        <div ng-app="playlist" data-framework="firebase" class="container">
+            <section ng-controller="PlaylistCtrl" class="main">
+                <header>
+                    <h1>Playlist</h1>
+                    <form ng-submit="addSong()" role="form">
+                        <input placeholder="What do you want to play?" ng-model="newSong" autofocus
+                        class="form-control">
+                        <br>
+                    </form>
+                    <p ng-cloak class="btn-toolbar">
+                        <button ng-show="!playing.shouldPlay" ng-click="startMusic()" type="button"
+                        class="btn btn-success"><span class="glyphicon glyphicon-play"></span>&nbsp;Start music</button>
+                        <button
+                        ng-show="playing.shouldPlay" ng-click="stopMusic()" type="button" class="btn btn-danger"><span class="glyphicon glyphicon-stop"></span>&nbsp;Stop music</button>
+                            <span
+                            ng-show="playing.shouldPlay">&nbsp;
+                                <button ng-click="nextSong()" type="button" class="btn btn-info"><span class="glyphicon glyphicon-step-forward"></span>&nbsp;Next</button>
+                                </span>
+                    </p>
+                </header>
+                <section ng-show="totalCount" ng-cloak>
+                    <table class="playlist table table-striped">
+                        <colgroup>
+                            <col width="10%">
+                                <col width="80%">
+                                    <col width="10%">
+                        </colgroup>
+                        <tbody>
+                            <tr ng-repeat="(id, song) in songs | orderBy:&quot;id&quot;:true" ng-class="{editing: song == editedSong}">
+                                <td><span ng-show="song.completed" class="text-muted glyphicon glyphicon-ok"></span>
+                                    <span
+                                    ng-show="id == playing.songId"><span class="glyphicon glyphicon-play"></span><strong>&nbsp;{{playing.progress | duration}}</strong>
+                                        </span>
+                                </td>
+                                <td ng-class="{&quot;text-muted&quot;: song.completed}" ng-dblclick="editSong(id)">
+                                    <p ng-show="song != editedSong" class="form-control-static"><strong speechrecognition="{tasks: recognition[&quot;en-US&quot;].listTasks, reference: song.title}">{{song.title}}</strong>
+                                        <span
+                                        ng-show="!!song.origTitle">
+                                            <br>You asked for:&nbsp;<em>{{song.origTitle}}</em>
+                                            </span>
+                                    </p>
+                                    <form ng-submit="doneEditing(id)" ng-show="song == editedSong">
+                                        <input ng-model="song.title" on-escape="revertEditing(id)" on-blur="doneEditing(id)"
+                                        focus-if="song == editedSong" class="form-control input-sm">
+                                    </form>
+                                </td>
+                                <td>
+                                    <button ng-click="removeSong(id)" ng-show="!song.completed &amp;&amp; id != playing.songId"
+                                    class="btn btn-xs btn-danger btn-delete">&times;</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                <footer ng-show="!!totalCount" ng-cloak class="clearfix">
+                    <div class="pull-left"><strong>{{remainingCount}}&nbsp;</strong>
+                        <ng-pluralize count="remainingCount"
+                        when="{ one: &quot;song left&quot;, other: &quot;songs left&quot; }"></ng-pluralize>
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" ng-click="clearCompletedSongs()" ng-show="!!completedCount"
+                        class="btn btn-sm btn-warning">Clear completed</button>
+                    </div>
+                </footer>
+            </section>
+            <footer class="well well-sm">
+                <h1 class="h4">Voice commands:</h1>
+                <p class="commands-list"><span class="label label-default">play SONG</span>&#32;<span class="label label-default">start music</span>&#32;
+                    <span
+                    class="label label-default">next</span>&#32;<span class="label label-default">remove SONG</span>&#32;
+                        <span
+                        class="label label-default">stop music</span>&#32;<span class="label label-default">clear completed</span>
+                </p>
+            </footer>
+        </div>
+        <script src="scripts/vendor/requirejs/require.js" data-main="scripts/main.js"></script>
+    </body>
+
+</html>
