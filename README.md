@@ -10,6 +10,6 @@ Next, install node dependencies by running `npm install` in the root folder.
 To build and launch a development server on port 3000 on unix-y systems simply
 run `make` in the root folder. In windows run `mimosa build; mimosa watch`.
 
-[music-player]:https://bitbucket.org/rulemotion/music-player
+[music-player]:https://github.com/resin-io/music-player-web
 [resin.io]:http://resin.io
 [mimosa]:http://mimosa.io/
